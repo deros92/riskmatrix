@@ -3,7 +3,8 @@ import pandas as pd
 import plotly.express as px
 import streamlit as st
 from datetime import date, timedelta
-
+import warnings
+warnings.simplefilter("ignore")
 
 def companies():
     """S&P100 Components data."""
@@ -23,17 +24,22 @@ def analysis(params):
     close_1 = []
     for key, value in params.items():
         try:
-            df = yf.download(tickers=key, period='30d', interval="1d", progress=False)
+            df = yf.download(tickers=key, period='1mo', interval="1d", progress=False)
         except:
             print(key, "didn't found")
             
         if len(df) > 0:
-            std_list.append(df['Close'].diff().std())
-            rnd.append((df['Close'][len(df)-1] - df['Close'][0])/df['Close'][0])
-            close_0.append(df['Close'][0])
-            close_1.append(df['Close'][len(df)-1])
+            std_value = float(df['Close'].diff().std().iloc[0])  
+            rnd_value = float((df['Close'].values[-1] - df['Close'].values[0]) / df['Close'].values[0]) 
+            close_0_value = float(df['Close'].values[0])  
+            close_1_value = float(df['Close'].values[-1])  
+            std_list.append(std_value)
+            rnd.append(rnd_value)
+            close_0.append(close_0_value)
+            close_1.append(close_1_value)
         else:
             d = d.drop(columns=value)
+
 
     d = d.T
     d['rnd'] = rnd
