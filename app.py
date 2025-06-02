@@ -38,7 +38,7 @@ def analysis(params):
             close_0.append(close_0_value)
             close_1.append(close_1_value)
         else:
-            d = d.drop(columns=value)
+            d = d.drop(columns=value, errors='ignore')
 
 
     d = d.T
