@@ -27,18 +27,18 @@ def analysis(params):
             df = yf.download(tickers=key, period='1mo', interval="1d", progress=False)
         except:
             print(key, "didn't found")
-            
+
         if len(df) > 0:
-            std_value = float(df['Close'].diff().std().iloc[0])  
-            rnd_value = float((df['Close'].values[-1] - df['Close'].values[0]) / df['Close'].values[0]) 
-            close_0_value = float(df['Close'].values[0])  
-            close_1_value = float(df['Close'].values[-1])  
+            std_value = float(df['Close'].diff().std().iloc[0])
+            rnd_value = float((df['Close'].values[-1] - df['Close'].values[0]) / df['Close'].values[0])
+            close_0_value = float(df['Close'].values[0])
+            close_1_value = float(df['Close'].values[-1])
             std_list.append(std_value)
             rnd.append(rnd_value)
             close_0.append(close_0_value)
             close_1.append(close_1_value)
         else:
-            d = d.drop(columns=value, errors='ignore')
+            d = d.drop(columns=value)
 
 
     d = d.T
